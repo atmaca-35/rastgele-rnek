@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let dictionaryData = {};
     let lastQuery = '';
     let hasError = false;
+    let activeTooltip = null;  // Şu an aktif olan balonu takip ediyoruz
 
     const clickableWords = {
         "+k": ["<span class='red'>geçişsiz eylem</span> yan-", "<span class='red'>ad</span> yanık", "<span class='red'>bağlaç</span> kelimesi", "<span class='red'>fiil</span> anlamı"],
@@ -116,6 +117,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             tooltip.className = 'tooltip';
             tooltip.innerHTML = randomMeanings.map(meaning => `<p>${meaning}</p>`).join('');
 
+            // Önceki aktif balon varsa onu kaldır
+            if (activeTooltip) {
+                activeTooltip.remove();
+            }
+
             document.body.appendChild(tooltip);
 
             const elementRect = element.getBoundingClientRect();
@@ -144,6 +150,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     element.style.textDecoration = 'none';
                 }, 300);
             });
+
+            // Yeni balonu aktif olarak takip ediyoruz
+            activeTooltip = tooltip;
         }
     }
 
